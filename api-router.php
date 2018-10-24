@@ -1,0 +1,1 @@
+<?php require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/webpractik.api/api-router.php");

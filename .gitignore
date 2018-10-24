@@ -1,0 +1,40 @@
+
+# Base
+/bitrix
+/upload
+/webstat
+/images
+/img
+/local/php_interface/error.log
+
+# Front-end
+/local/static/bower_components
+/local/static/node_modules
+/local/static/build
+/local/**/style.css
+/local/composer.lock
+
+# SEO
+/sitemap.xml
+/sitemap_*
+/robots.txt
+/.htaccess
+
+# other
+/.idea
+/.gitkeep
+/pma
+/webim
+/cgi-bin
+/web.config
+
+# trash files
+/**/*.txt
+/**/*.tmp
+/**/*.db
+/**/*.log
+/**/*.tar.gz
+/*.restore
+*.DS_Store
+Thumbs.db
+

@@ -1,0 +1,8 @@
+{
+    "name": "webpractik/vlad",
+    "description": "My first project with Composer",
+    "type": "project",
+    "require": {
+        "webpractik/api": "<=2"
+    }
+}
