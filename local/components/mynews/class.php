@@ -1,47 +1,50 @@
 <?php
 
-use \Bitrix\Iblock\ElementTable;
-use Webpractik\Main\Orm;
-use \Webpractik\Main\Orm\authorpropstable;
-use \Webpractik\Main\Orm\authormultipropertiestable;
 use Bitrix\Main\Loader;
-use \Bitrix\Main\Entity\ReferenceField;
-use Bitrix\Main\FileTable;
-use Bitrix\Main\Entity\ExpressionField;
-use Bitrix\Highloadblock\HighloadBlockTable;
+use Webpractik\Main\Orm;
+use \Bitrix\Main\Entity\ExpressionField;
 
 Loader::includeModule("webpractik.main");
 
 \CModule::IncludeModule('iblock');
 
-class mynews extends CBitrixComponent
+class MyNews extends CBitrixComponent
 {
-	public function executeComponent() {
-		$this->getAllData();
-		$this->includeComponentTemplate();
-	}
-
-	private function getAllData() {
-		$this->arResult = Orm\articleTable::getList([
-			'select'  => [
-				'NAME',
-				'PROPS.AUTHOR',
-				'CREATED_BY_USER.NAME',
-				'PICTURE',
-				'CREATED_BY_USER.SECOND_NAME',
-				'IMAGE_PATH', /*'SOURCES_VALUES'*/
-				'SERIALIZED_NAME',
-				/*'SOURCE_LIST',*/
-				'SOURCES_VALUES'
-			],
-			'filter'  => [
-				'IBLOCK_ID' => 12,
-				'=ACTIVE'    => 'Y',
-			],
-			'runtime' => [
-				new ExpressionField('SOURCES_VALUES', 'GROUP_CONCAT(webpractik_main_orm_article_source_list.VALUE)')
-			],
-			'group'   => ['ID']
-		])->fetchAll();
-	}
+    public function executeComponent()
+    {
+        $this->getAllData();
+        $this->includeComponentTemplate();
+    }
+    
+    private function getAllData()
+    {
+        \Bitrix\Main\HttpApplication::getConnection()->startTracker();
+        $dbResult = Orm\ArticleTable::getList([
+            'select'  => [
+                'NAME',
+                'AUTHOR' => 'PROPS.AUTHOR',
+                'CREATED_BY_USER.NAME',
+                'PICTURE',
+                'CREATED_BY_USER.SECOND_NAME',
+                'IMAGE_PATH', /*'SOURCES_VALUES'*/
+                'SERIALIZED_NAME',
+                // 'SOURCE_LIST',
+                'SOURCES_VALUES'
+            ],
+            'filter'  => [
+                'IBLOCK_ID' => 12,
+                '=ACTIVE'   => 'Y',
+            ],
+            'runtime' => [
+                new ExpressionField('SOURCES_VALUES', 'GROUP_CONCAT(%s)', 'SOURCE_LIST.VALUE')
+            ],
+            'group'   => ['ID'],
+        ]);
+        
+        
+        $this->arResult = $dbResult->fetchAll();
+        
+        echo '<pre>', $dbResult->getTrackerQuery()->getSql(), '</pre>';
+        
+    }
 }

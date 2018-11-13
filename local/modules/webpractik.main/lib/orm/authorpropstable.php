@@ -37,7 +37,7 @@ class authorpropstable extends Main\Entity\DataManager
 	 */
 	public static function getMap() {
 		return [
-			new Entity\IntegerField('IBLOCK_ELEMENT_ID', ['primary' => true, 'title' => Loc::getMessage('ELEMENT_PROP_S12_ENTITY_IBLOCK_ELEMENT_ID_FIELD')])
+			new Entity\IntegerField('IBLOCK_ELEMENT_ID', ['primary' => true])
 			,
 			new Entity\StringField('AUTHOR', [
 				'column_name' => 'PROPERTY_62',
@@ -62,4 +62,3 @@ class authorpropstable extends Main\Entity\DataManager
 		];
 	}
 }
-
